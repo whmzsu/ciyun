@@ -2,7 +2,6 @@
 import jieba
 from wordcloud import WordCloud
 import os
-
 import tkinter as tk
 from tkinter import messagebox
 from tkinter.filedialog import askdirectory
@@ -52,11 +51,11 @@ def ciyun(txt_files_path, txtfile, png_output_path, stopfile, userdict, font):
 
 
 #####################GUI#################
-def get():
-    txt_files_path = entry_txt_path.get()
-    png_output_path = entry_png_path.get()
-    stopfile = entry_stopfile_path.get()
-    userdict = entry_userdict_path.get()
+def go(txt_files_path, png_output_path, stopfile, userdict):
+    txt_files_path = txt_files_path.get()
+    png_output_path = png_output_path.get()
+    stopfile = stopfile.get()
+    userdict = userdict.get()
 
     param_flag = 1
     if not txt_files_path:
@@ -90,71 +89,72 @@ def selectfile(file):
     file.set(file_)
 
 
-window = tk.Tk()
-window.title("PNG图片词云文件生成工具")
+def main():
 
-txt_files_path = tk.StringVar()
-png_output_path = tk.StringVar()
-stopfile = tk.StringVar()
-userdict = tk.StringVar()
+    window = tk.Tk()
+    window.title("PNG图片词云文件生成工具")
 
-frame1 = tk.Frame(window, highlightbackground="blue", highlightthickness=1)
-frame2 = tk.Frame(window, highlightbackground="blue", highlightthickness=1)
-frame3 = tk.Frame(window, highlightbackground="blue", highlightthickness=1)
-frame4 = tk.Frame(window, highlightbackground="blue", highlightthickness=1)
-frame5 = tk.Frame(window, highlightbackground="blue", highlightthickness=1)
-frame6 = tk.Frame(window, highlightbackground="blue", highlightthickness=1)
+    txt_files_path = tk.StringVar()
+    png_output_path = tk.StringVar()
+    stopfile = tk.StringVar()
+    userdict = tk.StringVar()
+
+    frame1 = tk.Frame(window, highlightbackground="blue", highlightthickness=1)
+    frame2 = tk.Frame(window, highlightbackground="blue", highlightthickness=1)
+    frame3 = tk.Frame(window, highlightbackground="blue", highlightthickness=1)
+    frame4 = tk.Frame(window, highlightbackground="blue", highlightthickness=1)
+    frame5 = tk.Frame(window, highlightbackground="blue", highlightthickness=1)
+    frame6 = tk.Frame(window, highlightbackground="blue", highlightthickness=1)
+
+    entry_txt_path = tk.Entry(frame1, textvariable=txt_files_path,
+                              state=tk.DISABLED, width=60)
+    button_txt_path = tk.Button(
+        frame1, text="TXT 文件 所在文件夹选择", command=lambda: selectpath(txt_files_path))
+
+    entry_png_path = tk.Entry(frame2, textvariable=png_output_path,
+                              state=tk.DISABLED, width=60)
+    button_png_path = tk.Button(frame2, text="PNG图片输出文件夹选择", command=lambda: selectpath(
+        png_output_path))
+
+    entry_stopfile_path = tk.Entry(frame3, textvariable=stopfile,
+                                   state=tk.DISABLED, width=60)
+    button_stopfile_path = tk.Button(frame3, text="stop词语文件选择（可选）", command=lambda: selectfile(
+        stopfile))
+
+    entry_userdict_path = tk.Entry(frame4, textvariable=userdict,
+                                   state=tk.DISABLED, width=60)
+    button_userdict_path = tk.Button(frame4, text="用户字典文件选择（可选）", command=lambda: selectfile(
+        userdict))
+
+    button_confirm = tk.Button(
+        frame5, text="确定 Go", command=lambda: go(txt_files_path, png_output_path, stopfile, userdict))
+
+    #
+    entry_txt_path.pack()
+    button_txt_path.pack()
+
+    #
+    entry_png_path.pack()
+    button_png_path.pack()
+
+    #
+    entry_stopfile_path.pack()
+    button_stopfile_path.pack()
+
+    #
+    entry_userdict_path.pack()
+    button_userdict_path.pack()
+
+    button_confirm.pack()
+
+    frame1.pack(padx=10, pady=10)
+    frame2.pack(padx=10, pady=10)
+    frame3.pack(padx=10, pady=10)
+    frame4.pack(padx=10, pady=10)
+    frame5.pack(padx=10, pady=10)
+    frame6.pack(padx=10, pady=10)
+    window.mainloop()
 
 
-entry_txt_path = tk.Entry(frame1, textvariable=txt_files_path,
-                          state=tk.DISABLED, width=60)
-button_txt_path = tk.Button(
-    frame1, text="TXT 文件 所在文件夹选择", command=lambda: selectpath(txt_files_path))
-
-
-entry_png_path = tk.Entry(frame2, textvariable=png_output_path,
-                          state=tk.DISABLED, width=60)
-button_png_path = tk.Button(frame2, text="PNG图片输出文件夹选择", command=lambda: selectpath(
-    png_output_path))
-
-
-entry_stopfile_path = tk.Entry(frame3, textvariable=stopfile,
-                               state=tk.DISABLED, width=60)
-button_stopfile_path = tk.Button(frame3, text="stop词语文件选择（可选）", command=lambda: selectfile(
-    stopfile))
-
-
-entry_userdict_path = tk.Entry(frame4, textvariable=userdict,
-                               state=tk.DISABLED, width=60)
-button_userdict_path = tk.Button(frame4, text="用户字典文件选择（可选）", command=lambda: selectfile(
-    userdict))
-
-button_confirm = tk.Button(frame5, text="确定 Go", command=lambda: get())
-
-#
-entry_txt_path.pack()
-button_txt_path.pack()
-
-#
-entry_png_path.pack()
-button_png_path.pack()
-
-#
-entry_stopfile_path.pack()
-button_stopfile_path.pack()
-
-#
-entry_userdict_path.pack()
-button_userdict_path.pack()
-
-
-button_confirm.pack()
-
-
-frame1.pack(padx=10, pady=10)
-frame2.pack(padx=10, pady=10)
-frame3.pack(padx=10, pady=10)
-frame4.pack(padx=10, pady=10)
-frame5.pack(padx=10, pady=10)
-frame6.pack(padx=10, pady=10)
-window.mainloop()
+if __name__ == '__main__':
+    main()
